@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "684197429499",
+    "firebase_url": "https://fir-auth-test-8052d-default-rtdb.firebaseio.com",
     "project_id": "fir-auth-test-8052d",
     "storage_bucket": "fir-auth-test-8052d.appspot.com"
   },
