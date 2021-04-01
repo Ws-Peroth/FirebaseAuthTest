@@ -441,3 +441,5 @@ FodyWeavers.xsd
 /[Aa]ssets/Parse/
 /[Aa]ssets/Plugins/
 /[Aa]ssets/StreamingAssets/
+/[Aa]ssets/Editor Default Resources/
+/[Aa]ssets/ExternalDependencyManager/
