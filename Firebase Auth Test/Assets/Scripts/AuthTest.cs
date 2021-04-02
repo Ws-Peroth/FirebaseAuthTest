@@ -6,40 +6,59 @@ using Firebase.Auth; // 계정인증기능 사용
 
 public class AuthTest : MonoBehaviour
 {
-    public Text errorText;
+    public string email = "";
+    public string password = "";
+    [SerializeField] Text errorTextUI;
+    string errorText = "";
     private FirebaseAuth auth; // 인증 객체 불러오기
-
+    public bool isLogin = false;
     void Start()
     {
         auth = FirebaseAuth.DefaultInstance; // 인증 객체 초기화
-        Join("tester@gmail.com", "password"); // 해당 이메일,비밀번호로 가입하기
-        // Login("tester@gmail.com", "password");
         print("E-Mail : tester@gmail.com, \nPw = password");
+
     }
+
+    private void Update()
+    {
+        errorTextUI.text = errorText;
+    }
+
+    public void LoginButtonDown()
+    {
+        Login(email, password);
+    }
+
+    public void SignButtonDown()
+    {
+        Join(email, password);
+    }
+
 
     void Join(string email, string password)
     {
+        isLogin = false;
         // 이메일과 비밀번호로 가입하는 함수
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(
              task =>
              {
                  if (!task.IsCanceled && !task.IsFaulted)
                  {
-                     Debug.Log(email + " 로 회원가입 하셨습니다.");
-                     errorText.text = email + " 로 회원가입 하셨습니다.";
+                     errorText = email + " 로 회원가입 하셨습니다.";
                  }
                  else
                  {
                      Debug.Log("회원가입에 실패하셨습니다.");
+
                      if (task.IsCanceled)
                      {
-                         print("Create User With Email And Password Async was canceled.");
+                         errorText = "Create User With Email And Password Async was canceled.";
                          return;
                      }
                      if (task.IsFaulted)
                      {
-                         string errorCode = task.Exception.ToString();
-                         PrintErrorCode(errorCode);
+                         errorText = task.Exception.ToString();
+                         PrintErrorCode();
                          return;
                      }
                      
@@ -48,18 +67,18 @@ public class AuthTest : MonoBehaviour
          );
     }
     
-    void PrintErrorCode(string errorCode)
+    void PrintErrorCode()
     {
-        print(errorCode);
+        print(errorText);
 
-        string result = errorCode.Split(
+        string result = errorText.Split(
                new string[] { "Firebase.FirebaseException:" },
                System.StringSplitOptions.None)[1];
 
-        result = result.Split('\n')[0];
+        errorText = result.Split('\n')[0];
 
         print(result);
-        errorText.text = result;
+        errorTextUI.text = result;
     }
 
     void Login(string email, string password)
@@ -69,18 +88,29 @@ public class AuthTest : MonoBehaviour
             task => {
                 if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
                 {
-                    Debug.Log(email + " 로 로그인 하셨습니다.");
+                    errorText = email + " 로 로그인 하셨습니다.";
+                    isLogin = true;
                 }
                 else
                 {
-                    Debug.Log("로그인에 실패하셨습니다.");
+                    errorText = "로그인에 실패하셨습니다.";
+                    isLogin = false;
                 }
             }
         );
     }
 
-    public void SetData()
+    public void Logout()
     {
-
+        isLogin = false;
     }
+
+    public void MakeAccount()
+    {
+        if (isLogin)
+        {
+            print(auth.CurrentUser.UserId);
+        }
+    }
+
 }
