@@ -6,12 +6,13 @@ using Firebase.Auth; // 계정인증기능 사용
 
 public class AuthTest : MonoBehaviour
 {
+    [SerializeField] Text errorTextUI;
     public string email = "";
     public string password = "";
-    [SerializeField] Text errorTextUI;
     string errorText = "";
-    private FirebaseAuth auth; // 인증 객체 불러오기
     public bool isLogin = false;
+    private FirebaseAuth auth; // 인증 객체 불러오기
+
     void Start()
     {
         auth = FirebaseAuth.DefaultInstance; // 인증 객체 초기화
@@ -102,6 +103,8 @@ public class AuthTest : MonoBehaviour
 
     public void Logout()
     {
+        errorText = "로그아웃 완료";
+        auth.SignOut();
         isLogin = false;
     }
 
