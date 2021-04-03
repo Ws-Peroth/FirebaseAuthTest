@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Firebase.Database;
 using Firebase.Auth; // 계정인증기능 사용
 
 public class AuthTest : MonoBehaviour
@@ -12,9 +13,10 @@ public class AuthTest : MonoBehaviour
     string errorText = "";
     public bool isLogin = false;
     private FirebaseAuth auth; // 인증 객체 불러오기
-
+    DatabaseReference Reference;
     void Start()
     {
+        Reference = FirebaseDatabase.DefaultInstance.RootReference.Child("Uid").Reference;
         auth = FirebaseAuth.DefaultInstance; // 인증 객체 초기화
         print("E-Mail : tester@gmail.com, \nPw = password");
 
