@@ -439,6 +439,7 @@ FodyWeavers.xsd
 /[Aa]ssets/ExternalDependencyManager/
 /[Aa]ssets/Firebase/
 /[Aa]ssets/Parse/
+/[Aa]ssets/Photon/
 /[Aa]ssets/Plugins/
 /[Aa]ssets/StreamingAssets/
 /[Aa]ssets/Editor Default Resources/
